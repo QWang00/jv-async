@@ -64,8 +64,9 @@ public class Main {
 //            String result = combined.join();
 //            System.out.println(result);
 
-            System.out.println("Futures for step 4, within 10 seconds it will show: ");
-            int min = 1000;
+            System.out.println("Futures for step 4, within 10 seconds it will show otherwise throw error: ");
+            long startTime = System.nanoTime();
+            int min = 1000 ;
             int max = 10000;
             int random1 = min + (int) (Math.random() * ((max - min)) + 1);
             int random2 = min + (int) (Math.random() * ((max - min)) + 1);
@@ -92,13 +93,15 @@ public class Main {
 
 
                 CompletableFuture<String> combined = future5.thenCombine(future6, (f5, f6)-> f5 + " " + f6);
-            try {
+
                 String result = combined.join();
                 System.out.println(result);
-            } catch (Exception e) {
-                System.out.println("Error: exceeded 10 seconds.");
-                throw new RuntimeException(e);
-                }
+
+                long endTime = System.nanoTime();
+                long totalTime = endTime-startTime;
+                System.out.println(totalTime);
+                if(totalTime > 1000000000) throw new RuntimeException("Exceeds 10 Seconds");
+
             }
 
         }
